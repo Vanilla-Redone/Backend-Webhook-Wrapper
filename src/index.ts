@@ -1,12 +1,12 @@
 export class BaseManager {
     protected Main: Main
     constructor(Main: Main) {
-        this.Main = Main
+        this.Main = Main;
     }
 }
 
-import MCServerManager from "./MCServer"
-import WebhookManager from "./WebServer"
+import MCServerManager from "./MCServer";
+import WebhookManager from "./WebServer";
 const auth = require("../auth.json");
 const config = require("../config.json");
 
@@ -58,16 +58,16 @@ export default class Main {
     MCServerManager
     WebhookManager
     constructor(authData: AuthData, configData: ConfigData) {
-        this.authData = authData
-        this.configData = configData
+        this.authData = authData;
+        this.configData = configData;
 
-        this.MCServerManager = new MCServerManager(this)
-        this.WebhookManager = new WebhookManager(this)
+        this.MCServerManager = new MCServerManager(this);
+        this.WebhookManager = new WebhookManager(this);
     }
 
-    start() {
-        this.WebhookManager.createWebhookServer()
+    start(): void {
+        this.WebhookManager.createWebhookServer();
     }
 }
 
-new Main(auth, config).start()
+new Main(auth, config).start();
