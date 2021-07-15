@@ -19,7 +19,7 @@
                         "type": "number"
                     },
                     "RAM": {
-                        "description": "The amount of RAM (in gigabytes) to allocat to the .jar",
+                        "description": "The amount of RAM (in gigabytes) to allocate to the .jar",
                         "type": "number",
                         "default": 4
                     },
