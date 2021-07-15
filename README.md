@@ -33,7 +33,7 @@ All requests are sent to the `/hook` endpoint on the server. The port is configu
 
 ### Post Request
 Use this when you want to activate or deactivate the server
-```json
+```js
 body: {
     "time": number, //The current UNIX timestamp (with milliseconds)
     "action": "ACTIVATE"|"DEACTIVATE" //Ask to activate or deactivate the server 
@@ -41,7 +41,7 @@ body: {
 ```
 
 Server responds with:
-```json
+```js
     "changed": boolean, //Whether the request changed the server status
     "oldStatus": "ONLINE"|"OFFLINE"|"BOOTING",
     "newStatus": "ONLINE"|"OFFLINE"|"BOOTING"
@@ -49,7 +49,7 @@ Server responds with:
 
 ### Get Request
 Use this when you want to query the current state of the server
-```json
+```js
 body: {
     "time": number, //The current UNIX timestamp (with milliseconds)
     "type": "GET_PROCESS"|"GET_SERVER_STATUS" //Get the intended state, or ask the webserver to query whether the minecraft server is up
@@ -57,7 +57,7 @@ body: {
 ```
 
 Server responds with:
-```json
+```js
 body: {
     "state": "ONLINE"|"OFFLINE"|"BOOTING"
 }
@@ -69,7 +69,7 @@ Two files must be present in the root of the project directory:
 
 ## Config
 The `config.json` file must contain the following fields:
-```json
+```js
 {
     "port": number, //The port for the webserver to listen on
     "serverPath": string, //The location of the .jar of the server
@@ -81,7 +81,7 @@ The `config.json` file must contain the following fields:
 
 ## Auth
 The `auth.json` file must contain the following fields:
-```json
+```js
 {
     "authToken": string //The authentication token used to generate validation hashes
 }
