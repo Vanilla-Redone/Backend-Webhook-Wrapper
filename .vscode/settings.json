@@ -1,0 +1,58 @@
+{
+    "json.schemas": [
+        {
+            "fileMatch": [
+                "config.json"
+            ],
+            "schema": {
+                "definitions": {
+                    "port": {
+                        "description": "The port for the webserver to listen on",
+                        "type": "number"
+                    },
+                    "serverPath": {
+                        "description": "The location of the .jar of the server",
+                        "type": "string"
+                    },
+                    "startIn": {
+                        "description": "The location to start the .jar in",
+                        "type": "number"
+                    },
+                    "RAM": {
+                        "description": "The amount of RAM (in gigabytes) to allocat to the .jar",
+                        "type": "number",
+                        "default": 4
+                    },
+                    "serverPort": {
+                        "description": "The port the minecraft server is running on",
+                        "default": 25565,
+                        "type": "number"
+                    }
+                },
+                "required": [
+                    "port",
+                    "serverPath",
+                    "startIn",
+                    "RAM",
+                    "serverPort"
+                ]
+            }
+        },
+        {
+            "fileMatch": [
+                "auth.json"
+            ],
+            "schema": {
+                "definitions": {
+                    "authToken": {
+                        "description": "The authentication token used to generate validation hashes",
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "authToken"
+                ]
+            }
+        }
+    ]
+}
