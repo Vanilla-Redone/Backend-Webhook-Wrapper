@@ -2,3 +2,5 @@ node_modules/*
 build/*
 auth.json
 config.json
+
+*.zip
