@@ -1,10 +1,10 @@
 # Vanilla Redone Backend Server Webhook Wrapper
-A js project written in typescript to allow webhooks to start, stop and query backend bungeecord servers. It is intended to be run on the same computer as the backend server
+A js project written in typescript to allow webhooks to start, stop and query backend bungeecord servers. It is intended to be run on the same computer as the backend server.
 
 
-# Webhook Payloads
+## Webhook Payloads
 
-## Authentication
+### Authentication
 All requests must hash their body with an authentication token defined in `auth.json` and include the hash in the `x-hub-signature-256` header.
 
 This ts snippet will do that for you:
@@ -22,7 +22,7 @@ const signedHash = "sha256=" + crypto.createHmac("sha256", sampleKey).update(JSO
 Failure to include this header will cause the server to respond with a 403.
 
 
-## Requests
+### Requests
 All requests are sent to the `/hook` endpoint on the server. The port is configured in `config.json`.
 
 - ❌Failure to include required fields will cause the server to respond with a 403.
@@ -31,7 +31,7 @@ All requests are sent to the `/hook` endpoint on the server. The port is configu
 
 - ✔Successful request will respond with a 200 and the data below:
 
-### Post Request
+#### Post Request
 Use this when you want to activate or deactivate the server
 ```js
 body: {
@@ -42,12 +42,14 @@ body: {
 
 Server responds with:
 ```js
+body: {
     "changed": boolean, //Whether the request changed the server status
     "oldStatus": "ONLINE"|"OFFLINE"|"BOOTING",
     "newStatus": "ONLINE"|"OFFLINE"|"BOOTING"
+}
 ```
 
-### Get Request
+#### Get Request
 Use this when you want to query the current state of the server
 ```js
 body: {
@@ -63,11 +65,11 @@ body: {
 }
 ```
 
-# Configuration
+## Configuration
 
 Two files must be present in the root of the project directory:
 
-## Config
+### Config
 The `config.json` file must contain the following fields:
 ```js
 {
@@ -79,7 +81,7 @@ The `config.json` file must contain the following fields:
 }
 ```
 
-## Auth
+### Auth
 The `auth.json` file must contain the following fields:
 ```js
 {
@@ -87,7 +89,7 @@ The `auth.json` file must contain the following fields:
 }
 ```
 
-# Running
+## Running
 ‼You must be using Node v14 or higher
 
 1) Clone the repo or download the release.
