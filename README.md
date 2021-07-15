@@ -34,7 +34,7 @@ All requests are sent to the `/hook` endpoint on the server. The port is configu
 #### Post Request
 Use this when you want to activate or deactivate the server
 ```js
-body: {
+data: {
     "time": number, //The current UNIX timestamp (with milliseconds)
     "action": "ACTIVATE"|"DEACTIVATE" //Ask to activate or deactivate the server 
 }
@@ -42,7 +42,7 @@ body: {
 
 Server responds with:
 ```js
-body: {
+data: {
     "changed": boolean, //Whether the request changed the server status
     "oldStatus": "ONLINE"|"OFFLINE"|"BOOTING",
     "newStatus": "ONLINE"|"OFFLINE"|"BOOTING"
@@ -52,7 +52,7 @@ body: {
 #### Get Request
 Use this when you want to query the current state of the server
 ```js
-body: {
+data: {
     "time": number, //The current UNIX timestamp (with milliseconds)
     "type": "GET_PROCESS"|"GET_SERVER_STATUS" //Get the intended state, or ask the webserver to query whether the minecraft server is up
 }
@@ -60,7 +60,7 @@ body: {
 
 Server responds with:
 ```js
-body: {
+data: {
     "state": "ONLINE"|"OFFLINE"|"BOOTING"
 }
 ```
