@@ -2,7 +2,7 @@ import Main, { BaseManager, PostExpectedPayload, PostResponse } from ".";
 import express from "express";
 import crypto from "crypto";
 import {json} from "body-parser";
-import safeCompare from "safe-compare"
+import safeCompare from "safe-compare";
 
 const TIME_SECOND = 1000;
 
