@@ -2,6 +2,7 @@ import Main, { BaseManager, PostExpectedPayload, PostResponse } from ".";
 import express from "express";
 import crypto from "crypto";
 import {json} from "body-parser";
+import safeCompare from "safe-compare"
 
 const TIME_SECOND = 1000;
 
@@ -106,6 +107,8 @@ export default class WebhookManager extends BaseManager {
     private validateSHA(req: express.Request): boolean {
         const expectedSignature = `sha256=${crypto.createHmac("sha256", this.Main.authData.authToken).update(JSON.stringify(req.body)).digest("hex")}`; 
 
-        return req.headers["x-hub-signature-256"] === expectedSignature;
+        if (Array.isArray(req.headers["x-hub-signature-256"])) return false;
+
+        return safeCompare(req.headers["x-hub-signature-256"] as string, expectedSignature);
     }
 }
