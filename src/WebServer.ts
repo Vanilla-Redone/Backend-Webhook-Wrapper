@@ -99,7 +99,7 @@ export default class WebhookManager extends BaseManager {
     private sharedChecks(req: express.Request): boolean {
         if (!this.validateSHA(req)) return false;
         if (!req.body.time || isNaN(req.body.time)) return false;
-        if (Math.abs(req.body.time - Date.now()) > TIME_SECOND * 15) return false;
+        if (!(Math.abs(req.body.time - Date.now()) < TIME_SECOND * 15)) return false;
 
         return true;
     }
