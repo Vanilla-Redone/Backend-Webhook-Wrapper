@@ -28,8 +28,8 @@ export default class WebhookManager extends BaseManager {
                     const output = await this.Main.MCServerManager.startProcess();
                     res.send({
                         changed: output,
-                        oldStatus: initialStatus,
-                        newStatus: this.Main.MCServerManager.queryIntendedState()
+                        oldState: initialStatus,
+                        newState: this.Main.MCServerManager.queryIntendedState()
                     } as PostResponse);
                     
                     break;
@@ -39,8 +39,8 @@ export default class WebhookManager extends BaseManager {
 
                     res.send({
                         changed: output,
-                        oldStatus: initialStatus,
-                        newStatus: this.Main.MCServerManager.queryIntendedState()
+                        oldState: initialStatus,
+                        newState: this.Main.MCServerManager.queryIntendedState()
                     } as PostResponse);
                     break;
                 }

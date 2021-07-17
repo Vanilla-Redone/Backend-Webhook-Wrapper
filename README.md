@@ -44,8 +44,8 @@ Server responds with:
 ```js
 data: {
     "changed": boolean, //Whether the request changed the server status
-    "oldStatus": "ONLINE"|"OFFLINE"|"BOOTING",
-    "newStatus": "ONLINE"|"OFFLINE"|"BOOTING"
+    "oldState": "ONLINE"|"OFFLINE"|"BOOTING",
+    "newState": "ONLINE"|"OFFLINE"|"BOOTING"
 }
 ```
 

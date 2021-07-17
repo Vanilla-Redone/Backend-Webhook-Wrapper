@@ -43,8 +43,8 @@ export interface GetExpectedPayload extends BaseExpectedPayload {
 
 export interface PostResponse {
     changed: boolean
-    oldStatus: "ONLINE"|"OFFLINE"|"BOOTING"
-    newStatus: "ONLINE"|"OFFLINE"|"BOOTING"
+    oldState: "ONLINE"|"OFFLINE"|"BOOTING"
+    newState: "ONLINE"|"OFFLINE"|"BOOTING"
 }
 
 export interface QueryResponse {
