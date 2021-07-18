@@ -31,6 +31,8 @@ export default class MCServerManager extends BaseManager {
             return false;
         }
 
+        console.log("STARTING SERVER CHILD");
+
         this.process = spawn("java", [`-Xms${this.Main.configData.RAM}G`, `-Xmx${this.Main.configData.RAM}G`, "-jar", this.Main.configData.serverPath, "-nogui"], {
             cwd: this.Main.configData.startIn
         });
@@ -40,6 +42,7 @@ export default class MCServerManager extends BaseManager {
         this.process?.stdout?.on("data", (data) => {
             console.log(`THE CHILD SPEAKS: ${data}`);
         });
+        this.process.once("exit", (code) => console.log(`THE CHILD IS DEAD: ${code}`));
 
         setTimeout(() => {
             this.pingServer();
@@ -49,6 +52,8 @@ export default class MCServerManager extends BaseManager {
     }
 
     queryIntendedState(): "ONLINE"|"OFFLINE"|"BOOTING" {
+        console.log("PROCESS STATE QUERY RECEIVED");
+
         if (!this.booting && !this.processActive) return "OFFLINE";
 
         if (this.booting) return "BOOTING";
@@ -57,15 +62,19 @@ export default class MCServerManager extends BaseManager {
     }
 
     async queryUpServer(): Promise<boolean> {
+        console.log("SERVER STATE QUERY RECEIVED");
+
         return this.pingServer();
     }
 
     async stopProcess(): Promise<boolean> {
-        if (!this.processActive || this.booting) return false;
+        if (!this.processActive && !this.booting) return false;
 
-        this.process?.stdin?.write("stop\n", (err) => console.error(err));
+        console.log("ATTEMPTING TO KILL CHILD SERVER");
 
-        sleep(15000).then(() => {
+        if (this.processActive) this.process?.stdin?.write("stop\n", (err) => console.error(err));
+
+        sleep(this.processActive ? 15000 : 0).then(() => {
             try {
                 this.process?.kill();
                 this.processActive = false;
