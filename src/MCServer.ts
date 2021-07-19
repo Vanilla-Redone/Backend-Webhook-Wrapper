@@ -72,9 +72,19 @@ export default class MCServerManager extends BaseManager {
 
         console.log("ATTEMPTING TO KILL CHILD SERVER");
 
-        if (this.processActive) this.process?.stdin?.write("stop\n", (err) => console.error(err));
-
-        sleep(this.processActive ? 15000 : 0).then(() => {
+        if (this.processActive) {
+            this.process?.stdin?.write("stop\n", (err) => console.error(err));
+            sleep(15000).then(() => {
+                try {
+                    this.process?.kill();
+                    this.processActive = false;
+                    this.booting = false;
+                    this.process = undefined;
+                } catch(e) {
+                    return false;
+                }
+            });
+        } else {
             try {
                 this.process?.kill();
                 this.processActive = false;
@@ -83,7 +93,7 @@ export default class MCServerManager extends BaseManager {
             } catch(e) {
                 return false;
             }
-        });
+        }
 
         return true;
     }
