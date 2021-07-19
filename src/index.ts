@@ -7,6 +7,9 @@ export class BaseManager {
 
 import MCServerManager from "./MCServer";
 import WebhookManager from "./WebServer";
+import axios from "axios";
+
+const packageJSON = require("../package.json");
 const auth = require("../auth.json");
 const config = require("../config.json");
 
@@ -15,6 +18,21 @@ try {
 } catch (e) {
     //Don't really need accurate traces on the hoster
 }
+
+axios({
+    method: "GET",
+    url: "https://api.github.com/repos/Vanilla-Redone/Backend-Webhook-Wrapper/releases",
+}).then((response) => {
+    if (response.status === 200) {
+        const tagName = response.data[0]?.tag_name as string|undefined;
+
+        if (tagName && packageJSON.version) {
+            if (!(tagName.endsWith(packageJSON.version))) {
+                console.warn(`Hey! You might be out of date. Check the repo to see if there is a newer version.\nhttps://github.com/Vanilla-Redone/Backend-Webhook-Wrapper\n(Detected: ${packageJSON.version} | Found: ${tagName})`);
+            }
+        }
+    }
+}).catch(() => {/* */});
 
 export interface AuthData {
     authToken: string
