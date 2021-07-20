@@ -1,3 +1,4 @@
+process.title = "MC Server Launcher | Inactive";
 export class BaseManager {
     protected Main: Main
     constructor(Main: Main) {

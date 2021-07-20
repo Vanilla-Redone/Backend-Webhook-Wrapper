@@ -38,12 +38,14 @@ export default class MCServerManager extends BaseManager {
         });
 
         this.booting = true;
+        process.title = "MC Server Launcher | Booting";
         
         this.process?.stdout?.on("data", (data) => {
             console.log(`THE CHILD SPEAKS: ${data}`);
         });
         this.process.once("exit", (code) => {
             if (this.processActive) this.processActive = false;
+            process.title = "MC Server Launcher | Inactive";
             console.log(`THE CHILD IS DEAD: ${code}`);
         });
 
@@ -112,6 +114,7 @@ export default class MCServerManager extends BaseManager {
                 if (this.booting || !this.processActive) {
                     this.booting = false;
                     this.processActive = true;
+                    process.title = "MC Server Launcher | Online";
                 }
                 return {
                     description: result.description?.descriptionText,
