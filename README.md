@@ -60,8 +60,24 @@ data: {
 
 Server responds with:
 ```js
+//If type is "GET_PROCESS"
 data: {
     "state": "ONLINE"|"OFFLINE"|"BOOTING"
+}
+```
+or
+```js
+//If type is "GET_SERVER_STATUS"
+data: {
+    "state": "ONLINE"|"OFFLINE",
+    "serverInfo"?: { //Defined if state=="ONLINE". 
+        //The following properties may exist in this case, but are not guaranteed to. Any combination of properties may be defined.
+        onlinePlayers?: number,
+        maxPlayers?: number,
+        version?: string,
+        favicon?: string,
+        description?: string
+    }
 }
 ```
 

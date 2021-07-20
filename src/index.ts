@@ -59,15 +59,29 @@ export interface GetExpectedPayload extends BaseExpectedPayload {
     type: "GET_PROCESS"|"GET_SERVER_STATUS"
 }
 
+export type PossibleStates = "ONLINE"|"OFFLINE"|"BOOTING"
+
 export interface PostResponse {
     changed: boolean
-    oldState: "ONLINE"|"OFFLINE"|"BOOTING"
-    newState: "ONLINE"|"OFFLINE"|"BOOTING"
+    oldState: PossibleStates
+    newState: PossibleStates
 }
 
-export interface QueryResponse {
-    state: "ONLINE"|"OFFLINE"|"BOOTING"
+export interface FilteredMcServerData {
+    onlinePlayers?: number,
+    maxPlayers?: number
+    version?: string,
+    favicon?: string,
+    description?: string,
 }
+
+export interface BaseQueryResponse {
+    state: PossibleStates
+}
+export interface ServerQueryResponse extends BaseQueryResponse {
+    state: "ONLINE"|"OFFLINE",
+    serverInfo?: FilteredMcServerData //Defined if state=="ONLINE"
+}   
 
 export default class Main {
     authData

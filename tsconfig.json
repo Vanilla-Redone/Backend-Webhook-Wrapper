@@ -17,7 +17,8 @@
         "outDir": "build",
         "moduleResolution": "Node",
         "removeComments": false,
-        "noImplicitOverride": true
+        "noImplicitOverride": true,
+        "strictNullChecks": true,
     },
     "exclude": [
         "node_modules",

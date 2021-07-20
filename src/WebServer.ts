@@ -1,4 +1,4 @@
-import Main, { BaseManager, PostExpectedPayload, PostResponse } from ".";
+import Main, { BaseManager, BaseQueryResponse, PostExpectedPayload, PostResponse, ServerQueryResponse } from ".";
 import express from "express";
 import crypto from "crypto";
 import {json} from "body-parser";
@@ -28,8 +28,8 @@ export default class WebhookManager extends BaseManager {
                     const output = await this.Main.MCServerManager.startProcess();
                     res.send({
                         changed: output,
-                        oldState: initialStatus,
-                        newState: this.Main.MCServerManager.queryIntendedState()
+                        oldState: initialStatus.state,
+                        newState: this.Main.MCServerManager.queryIntendedState().state
                     } as PostResponse);
                     
                     break;
@@ -39,8 +39,8 @@ export default class WebhookManager extends BaseManager {
 
                     res.send({
                         changed: output,
-                        oldState: initialStatus,
-                        newState: this.Main.MCServerManager.queryIntendedState()
+                        oldState: initialStatus.state,
+                        newState: this.Main.MCServerManager.queryIntendedState().state
                     } as PostResponse);
                     break;
                 }
@@ -57,15 +57,13 @@ export default class WebhookManager extends BaseManager {
 
             switch(req.body.type) {
                 case "GET_PROCESS":
-                    res.send({
-                        state: this.Main.MCServerManager.queryIntendedState()
-                    });
+                    res.send(this.Main.MCServerManager.queryIntendedState() as BaseQueryResponse); 
+                    //This typecasting is useless but if this method changes again in the future it will be a reminder to ensure it returns the right data
                     break;
 
                 case "GET_SERVER_STATUS":
-                    res.send({
-                        state: await this.Main.MCServerManager.queryUpServer() ? "ONLINE" : "OFFLINE"
-                    });
+                    res.send(await this.Main.MCServerManager.queryUpServer() as ServerQueryResponse);
+                    //This typecasting is useless but exists for the same reason above
                     break;
 
                 default:

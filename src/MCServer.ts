@@ -1,4 +1,4 @@
-import Main, { BaseManager } from ".";
+import Main, { BaseManager, BaseQueryResponse, FilteredMcServerData, ServerQueryResponse } from ".";
 import fs from "fs";
 import path from "path";
 import { spawn, ChildProcess } from "child_process";
@@ -51,20 +51,24 @@ export default class MCServerManager extends BaseManager {
         return true;
     }
 
-    queryIntendedState(): "ONLINE"|"OFFLINE"|"BOOTING" {
+    queryIntendedState(): BaseQueryResponse {
         console.log("PROCESS STATE QUERY RECEIVED");
 
-        if (!this.booting && !this.processActive) return "OFFLINE";
+        if (!this.booting && !this.processActive) return {state: "OFFLINE"};
 
-        if (this.booting) return "BOOTING";
+        if (this.booting) return {state: "BOOTING"};
 
-        return this.processActive ? "ONLINE" : "OFFLINE";
+        return {state: this.processActive ? "ONLINE" : "OFFLINE"};
     }
 
-    async queryUpServer(): Promise<boolean> {
-        console.log("SERVER STATE QUERY RECEIVED");
+    async queryUpServer(): Promise<ServerQueryResponse> {
+        console.log("SERVER QUERY RECEIVED");
 
-        return this.pingServer();
+        const ping = await this.pingServer();
+        return {
+            state: ping ? "ONLINE" : "OFFLINE",
+            serverInfo: ping
+        };
     }
 
     async stopProcess(): Promise<boolean> {
@@ -98,7 +102,7 @@ export default class MCServerManager extends BaseManager {
         return true;
     }
 
-    private async pingServer(): Promise<boolean> {
+    private async pingServer(): Promise<FilteredMcServerData|undefined> {
         try {
             const result = await status("localhost", {timeout: 5000, port: this.Main.configData.serverPort});
             if (result) {
@@ -106,12 +110,18 @@ export default class MCServerManager extends BaseManager {
                     this.booting = false;
                     this.processActive = true;
                 }
-                return true;
+                return {
+                    description: result.description?.descriptionText,
+                    version: result.version ?? undefined,
+                    favicon: result.favicon ?? undefined,
+                    maxPlayers: result.maxPlayers ?? undefined,
+                    onlinePlayers: result.onlinePlayers ?? undefined,
+                };
             }
 
-            return false;
+            return;
         } catch(e) {
-            return false;
+            return;
         }
     }
 }
