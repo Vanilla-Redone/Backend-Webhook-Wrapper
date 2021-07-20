@@ -42,7 +42,10 @@ export default class MCServerManager extends BaseManager {
         this.process?.stdout?.on("data", (data) => {
             console.log(`THE CHILD SPEAKS: ${data}`);
         });
-        this.process.once("exit", (code) => console.log(`THE CHILD IS DEAD: ${code}`));
+        this.process.once("exit", (code) => {
+            if (this.processActive) this.processActive = false;
+            console.log(`THE CHILD IS DEAD: ${code}`);
+        });
 
         setTimeout(() => {
             this.pingServer();
