@@ -1,5 +1,5 @@
 # Vanilla Redone Backend Server Webhook Wrapper
-A js project written in typescript to allow webhooks to start, stop and query backend bungeecord servers. It is intended to be run on the same computer as the backend server.
+A js project written in typescript to allow webhooks to start, stop and query Minecraft servers, initially designed to control servers behind a server (bungeecord) proxy. It is intended to be run on the same computer as the Minecraft server.
 
 
 ## Webhook Payloads
