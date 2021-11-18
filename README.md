@@ -27,6 +27,8 @@ All requests are sent to the `/hook` endpoint on the server. The port is configu
 
 - ❌Failure to include required fields will cause the server to respond with a 403.
 - ❌Failure to provide a timestamp within 15 seconds of the server's clock will cause the server to respond with a 403.
+    
+<pre>❗   **Note: JS uses Unix in milliseconds, if using second-based Unix, multiply by 1000**</pre>
 - ❌Failure to include the correct data for each field will cause the server to respond with a 400.
 
 - ✔Successful request will respond with a 200 and the data below:
